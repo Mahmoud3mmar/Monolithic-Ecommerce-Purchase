@@ -1,5 +1,5 @@
-import { catchError } from "../../../ultis/error.handler"
-import ProductCatalogModel from "../models/Prouduct-Catalog.model"
+import { AppError, catchError } from "../../../ultis/error.handler.js"
+import ProductCatalogModel from "../models/Prouduct-Catalog.model.js"
 
 
 
@@ -7,7 +7,7 @@ import ProductCatalogModel from "../models/Prouduct-Catalog.model"
 const GetAllProducts= catchError (async (req,res)=>{
 
 
-    const products= await ProductCatalogModel().find()
+    const products= await ProductCatalogModel().find
     res.json({products})     
 
 })
@@ -20,7 +20,7 @@ const GetAllProductByID= catchError (async (req,res)=>{
 
 
     const {productid}=req.params
-    const product= await ProductCatalogModel().findById(productid)
+    const product= await ProductCatalogModel.findById({_id:productid})
 
 
     if(!product) throw new error ('No Product Found!!!',404)
@@ -31,21 +31,22 @@ const GetAllProductByID= catchError (async (req,res)=>{
 
 
 
-const CreateProduct= catchError (async (req,res)=>{
+const AddProduct= catchError (async (req,res)=>{
 
 
-    const {productid}=req.params
     const { name, description, price} = req.body;
 
 
-    const existingproduct = await UserModel.findById(productid);
+    const existingProduct = await ProductCatalogModel.findOne({
+        name,
+        description,
+        price
+    });
 
-    if (!existingproduct) {
-        throw new AppError('product not found',404)
-   }
+    if (existingProduct) throw new AppError('Productalready exists!!!!!',409)
 
 
-   const newproduct = await PostModel.create({
+    const newproduct = await ProductCatalogModel.create({
     name,
     description,
     price})
@@ -68,7 +69,7 @@ const UpdateProduct = catchError(async (req, res) => {
     const { name, description, price} = req.body;
 
 
-    const product = await UserModel.findOneAndUpdate(
+    const product = await ProductCatalogModel.findOneAndUpdate(
         { _id: productid },
         { $set: { name, description, price} },
         { new: true } // This option returns the modified document rather than the original
@@ -77,8 +78,7 @@ const UpdateProduct = catchError(async (req, res) => {
     // Check if the user with the specified ID exists
     if (!product) throw new AppError('No Product Found !!!',404)
 
-    res.json({product});
-    
+    res.json({ product, message: 'Product Updated.' });    
    
 
 })
@@ -89,13 +89,13 @@ const DeleteProduct = catchError(async (req, res) => {
     const { productid } = req.params;
 
 
-    const product = await UserModel.deleteOne(
+    const product = await ProductCatalogModel.deleteOne(
         { _id: productid }
     )
 
     if (!product.deletedCount >0) throw new AppError('No Product Found !!!',404)
 
-    res.json({product},{ message: 'User deleted successfully' });
+    res.json({product,message: 'Product deleted successfully' });
     
    
 
@@ -103,3 +103,10 @@ const DeleteProduct = catchError(async (req, res) => {
 
 
 
+export  {
+GetAllProducts,
+GetAllProductByID,
+AddProduct,
+UpdateProduct,
+DeleteProduct
+}
