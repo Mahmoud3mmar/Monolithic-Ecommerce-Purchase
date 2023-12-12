@@ -5,14 +5,14 @@ import mongoose from "mongoose";
 
 const ProductCatalogSchema = new mongoose.Schema({
     name: {
-        type:String(255),
+        type:String,
         null:false
 
     },
-    description :text,
+    description :String,
     price:{
         
-        type:numbe,
+        type:Number,
         null:false
     }
 
