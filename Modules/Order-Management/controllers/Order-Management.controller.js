@@ -1,4 +1,4 @@
-import { catchError } from "../../../ultis/error.handler.js"
+import { AppError, catchError } from "../../../ultis/error.handler.js"
 import OrderManagementModel from "../models/Order-Management.model.js"
 
 
@@ -26,7 +26,7 @@ const GetAllOrderByID= catchError (async (req,res)=>{
     const Orders= await OrderManagementModel.findById({_id:Ordersid})
 
 
-    if(!product) throw new error ('No Product Found!!!',404)
+    if(!Orders) throw new AppError ('No Product Found!!!',404)
     res.json({product})     
 
 })
