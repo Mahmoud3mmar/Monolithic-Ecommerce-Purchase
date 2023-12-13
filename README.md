@@ -1,4 +1,5 @@
 Monolithic-Ecommerce-Purchase
+![Sequence Diagram](https://github.com/Mahmoud3mmar/Monolithic-Ecommerce-Purchase/assets/55957447/faa5aac4-8686-4b5c-b863-863ed82710ad)
 
 Technologies Used
 Node.js
