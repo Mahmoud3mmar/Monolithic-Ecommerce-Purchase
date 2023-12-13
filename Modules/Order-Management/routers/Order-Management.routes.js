@@ -11,3 +11,8 @@ const router = Router()
 router.route('/').get(GetAllOrders).post(AddOrder)
 
 router.route('/:productid').get(GetAllOrderByID).put(UpdateOrder).delete(DeleteOrder)
+
+
+
+
+export default router
