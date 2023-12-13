@@ -4,22 +4,25 @@ import mongoose from "mongoose";
 
 
 const OrderManagementSchema = new mongoose.Schema({
-    customerid:{
-        type:String,
-        null:false
+    customer_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer',
+        required: true
+      },
+      product_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true
+      }
     },
-    productid:{
-        type:String,
-        null:false
-    },
-    quantity:{
-        type:Number,
-        null:false
-    },
-    timestamps: true
-
-
-});
+    {
+      timestamps: true
+    }
+);
 
 
 const OrderManagementModel = mongoose.model('OrderManagement', OrderManagementSchema);
